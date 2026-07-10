@@ -252,8 +252,17 @@ export function AuthModals() {
 
             {/* Logo Header */}
             <div className="flex items-center gap-2.5 mb-4 font-bold text-lg uppercase tracking-tight">
-              <span className="grid place-items-center w-7 h-7 bg-ink text-primary text-xs font-black">✕</span>
-              <span className="text-foreground">Stellar Wealth</span>
+              <span className="grid place-items-center w-8 h-8 rounded-md bg-ink text-primary shadow-sm border border-border/50">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                  <line x1="3" x2="21" y1="22" y2="22" />
+                  <line x1="6" x2="6" y1="18" y2="11" />
+                  <line x1="10" x2="10" y1="18" y2="11" />
+                  <line x1="14" x2="14" y1="18" y2="11" />
+                  <line x1="18" x2="18" y1="18" y2="11" />
+                  <polygon points="12 2 20 7 4 7" />
+                </svg>
+              </span>
+              <span className="text-foreground">The Ledger Capital</span>
             </div>
 
             {/* Mode Specific Title & Subtitle */}
@@ -397,7 +406,7 @@ export function AuthModals() {
 
               {/* Footer Switch Link */}
               <p className="mt-5 text-center text-[12px] font-bold text-ink/70 uppercase">
-                {mode === "signin" ? "New to Stellar Wealth?" : "Already have an account?"}{" "}
+                {mode === "signin" ? "New to The Ledger Capital?" : "Already have an account?"}{" "}
                 <button
                   type="button"
                   onClick={() => switchMode(mode === "signin" ? "signup" : "signin")}

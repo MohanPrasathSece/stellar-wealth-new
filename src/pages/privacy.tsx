@@ -17,7 +17,7 @@ export default function PrivacyPage() {
           <div className="space-y-8 text-ink text-lg font-medium leading-relaxed">
             <p><strong>Last Updated: July 2026</strong></p>
             <p>
-              At Stellar Wealth, we take your privacy and the security of your data seriously. This Privacy Policy describes how we collect, use, and handle your information when you use our institutional-grade crypto investment platform.
+              At The Ledger Capital, we take your privacy and the security of your data seriously. This Privacy Policy describes how we collect, use, and handle your information when you use our institutional-grade crypto investment platform.
             </p>
             <h2 className="text-2xl font-bold uppercase mt-12 mb-4">1. Information We Collect</h2>
             <p>
@@ -33,7 +33,7 @@ export default function PrivacyPage() {
             </p>
             <h2 className="text-2xl font-bold uppercase mt-12 mb-4">4. Contact Us</h2>
             <p>
-              If you have any questions about this Privacy Policy, please contact our support team at legal@stellarwealth.com.
+              If you have any questions about this Privacy Policy, please contact our support team at legal@theledgercapital.com.
             </p>
           </div>
         </Reveal>

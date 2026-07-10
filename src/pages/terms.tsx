@@ -17,23 +17,23 @@ export default function TermsPage() {
           <div className="space-y-8 text-ink text-lg font-medium leading-relaxed">
             <p><strong>Last Updated: July 2026</strong></p>
             <p>
-              Welcome to Stellar Wealth. These Terms of Service govern your access to and use of our platform, services, and associated software.
+              Welcome to The Ledger Capital. These Terms of Service govern your access to and use of our platform, services, and associated software.
             </p>
             <h2 className="text-2xl font-bold uppercase mt-12 mb-4">1. Acceptance of Terms</h2>
             <p>
-              By accessing or using Stellar Wealth, you agree to be bound by these Terms and our Privacy Policy. If you do not agree to these Terms, you may not use our platform.
+              By accessing or using The Ledger Capital, you agree to be bound by these Terms and our Privacy Policy. If you do not agree to these Terms, you may not use our platform.
             </p>
             <h2 className="text-2xl font-bold uppercase mt-12 mb-4">2. Eligibility</h2>
             <p>
-              You must be at least 18 years old and capable of forming a binding contract to use our services. By using Stellar Wealth, you represent and warrant that you meet these requirements.
+              You must be at least 18 years old and capable of forming a binding contract to use our services. By using The Ledger Capital, you represent and warrant that you meet these requirements.
             </p>
             <h2 className="text-2xl font-bold uppercase mt-12 mb-4">3. Investment Risks</h2>
             <p>
-              Trading and investing in digital assets involves significant risk. You acknowledge that the value of digital assets can fluctuate wildly and you may lose some or all of your investment. Stellar Wealth does not guarantee any specific returns.
+              Trading and investing in digital assets involves significant risk. You acknowledge that the value of digital assets can fluctuate wildly and you may lose some or all of your investment. The Ledger Capital does not guarantee any specific returns.
             </p>
             <h2 className="text-2xl font-bold uppercase mt-12 mb-4">4. Governing Law</h2>
             <p>
-              These Terms shall be governed by and construed in accordance with the laws of the jurisdiction in which Stellar Wealth operates, without regard to its conflict of law provisions.
+              These Terms shall be governed by and construed in accordance with the laws of the jurisdiction in which The Ledger Capital operates, without regard to its conflict of law provisions.
             </p>
           </div>
         </Reveal>

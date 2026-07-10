@@ -24,11 +24,12 @@ import { useAuth } from "../context/AuthContext";
 
 /* ---------------- Reusable motion ---------------- */
 const fadeUp = {
-  hidden: { opacity: 0, y: 40 },
+  hidden: { opacity: 0, y: 60, scale: 0.95 },
   show: (i: number = 0) => ({
     opacity: 1,
     y: 0,
-    transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] as [number, number, number, number], delay: i * 0.08 },
+    scale: 1,
+    transition: { duration: 0.9, ease: [0.22, 1, 0.36, 1] as [number, number, number, number], delay: i * 0.1 },
   }),
 };
 
@@ -93,7 +94,7 @@ export function Nav({ isLoggedInPage = false }: { isLoggedInPage?: boolean }) {
       <div className="mx-auto max-w-6xl flex items-center justify-between rounded-full border border-border bg-background/70 backdrop-blur-xl px-4 py-2">
         <a href="/" className="flex items-center gap-2 font-bold text-lg">
           <LogoMark />
-          <span>Stellar Wealth</span>
+          <span>The Ledger Capital</span>
         </a>
         <nav className="hidden md:flex items-center gap-7 text-sm text-muted-foreground font-semibold uppercase tracking-wider">
           {isLoggedInPage ? (
@@ -132,8 +133,15 @@ export function Nav({ isLoggedInPage = false }: { isLoggedInPage?: boolean }) {
 
 export function LogoMark() {
   return (
-    <span className="grid place-items-center w-7 h-7 rounded-md bg-ink text-white text-xs font-black">
-      ✕
+    <span className="grid place-items-center w-8 h-8 rounded-md bg-ink text-white shadow-sm border border-border/50">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+        <line x1="3" x2="21" y1="22" y2="22" />
+        <line x1="6" x2="6" y1="18" y2="11" />
+        <line x1="10" x2="10" y1="18" y2="11" />
+        <line x1="14" x2="14" y1="18" y2="11" />
+        <line x1="18" x2="18" y1="18" y2="11" />
+        <polygon points="12 2 20 7 4 7" />
+      </svg>
     </span>
   );
 }
@@ -154,58 +162,60 @@ function Hero() {
         className="absolute inset-0 -z-10 [background-image:linear-gradient(to_right,oklch(0.92_0_0/0.5)_1px,transparent_1px),linear-gradient(to_bottom,oklch(0.92_0_0/0.5)_1px,transparent_1px)] [background-size:48px_48px] [mask-image:radial-gradient(ellipse_at_center,black_30%,transparent_75%)]"
       />
 
-      <motion.div
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.4 }}
-        className="chip mb-8"
-      >
-        <span className="w-1.5 h-1.5 rounded-full bg-primary" />
-        Institutional-grade digital asset management
-      </motion.div>
+      <motion.div style={{ y }} className="flex flex-col items-center z-10 w-full">
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.4 }}
+          className="chip mb-8"
+        >
+          <span className="w-1.5 h-1.5 rounded-full bg-primary" />
+          Institutional-grade digital asset management
+        </motion.div>
 
-      <h1 className="text-display text-[14vw] md:text-[8.5rem] leading-[0.9] max-w-5xl">
-        {["Build", "Wealth."].map((word, i) => (
-          <span key={i} className="inline-block overflow-hidden mr-4 last:mr-0 align-bottom">
-            <motion.span
-              initial={{ y: "110%" }}
-              animate={{ y: 0 }}
-              transition={{ duration: 1.1, delay: 0.5 + i * 0.12, ease: [0.22, 1, 0.36, 1] }}
-              className="inline-block"
-            >
-              {word === "Wealth." ? (
-                <>
-                  <span className="inline-grid place-items-center w-[0.9em] h-[0.9em] rounded-2xl bg-ink text-primary align-middle mr-2 text-[0.7em] font-black">
-                    ✕
-                  </span>
-                  Wealth.
-                </>
-              ) : (
-                word
-              )}
-            </motion.span>
-          </span>
-        ))}
-      </h1>
+        <h1 className="text-display text-[14vw] md:text-[8.5rem] leading-[0.9] max-w-5xl">
+          {["Build", "Wealth."].map((word, i) => (
+            <span key={i} className="inline-block overflow-hidden mr-4 last:mr-0 align-bottom">
+              <motion.span
+                initial={{ y: "110%" }}
+                animate={{ y: 0 }}
+                transition={{ duration: 1.1, delay: 0.5 + i * 0.12, ease: [0.22, 1, 0.36, 1] }}
+                className="inline-block"
+              >
+                {word === "Wealth." ? (
+                  <>
+                    <span className="inline-grid place-items-center w-[0.9em] h-[0.9em] rounded-2xl bg-ink text-primary align-middle mr-2 text-[0.7em] font-black">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="0.5em" height="0.5em" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="3" x2="21" y1="22" y2="22" /><line x1="6" x2="6" y1="18" y2="11" /><line x1="10" x2="10" y1="18" y2="11" /><line x1="14" x2="14" y1="18" y2="11" /><line x1="18" x2="18" y1="18" y2="11" /><polygon points="12 2 20 7 4 7" /></svg>
+                    </span>
+                    Wealth.
+                  </>
+                ) : (
+                  word
+                )}
+              </motion.span>
+            </span>
+          ))}
+        </h1>
 
-      <motion.p
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.9, duration: 0.7 }}
-        className="mt-8 max-w-xl text-lg text-muted-foreground"
-      >
-        The premier investment partner for digital assets. Capture every market opportunity —
-        securely, seamlessly, profitably.
-      </motion.p>
+        <motion.p
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.9, duration: 0.7 }}
+          className="mt-8 max-w-xl text-lg text-muted-foreground"
+        >
+          The premier investment partner for digital assets. Capture every market opportunity -
+          securely, seamlessly, profitably.
+        </motion.p>
 
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 1.05, duration: 0.7 }}
-        className="mt-8 flex flex-wrap gap-3 justify-center"
-      >
-        <a href="#contact" className="btn-primary">Start Investing <ArrowRight className="w-4 h-4" /></a>
-        <a href="#performance" className="btn-ghost">View Performance</a>
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 1.05, duration: 0.7 }}
+          className="mt-8 flex flex-wrap gap-3 justify-center"
+        >
+          <a href="#contact" className="btn-primary">Start Investing <ArrowRight className="w-4 h-4" /></a>
+          <a href="#performance" className="btn-ghost">View Performance</a>
+        </motion.div>
       </motion.div>
 
       <div className="absolute bottom-0 inset-x-0">
@@ -272,7 +282,7 @@ export function AboutCompany() {
         <Reveal delay={1}>
           <div className="space-y-8">
             <p className="text-xl md:text-2xl font-bold text-ink leading-snug">
-              Stellar Wealth is a vanguard institutional crypto asset manager, bridging traditional finance rigor with decentralized opportunities.
+              The Ledger Capital is a vanguard institutional crypto asset manager, bridging traditional finance rigor with decentralized opportunities.
             </p>
             <p className="text-lg text-ink font-medium">
               Founded on the belief that digital assets represent the most significant paradigm shift in modern finance, we provide sophisticated investors with secure, data-driven exposure to the crypto ecosystem. Our proprietary quantitative models and deep liquidity access ensure unparalleled execution and growth.
@@ -415,7 +425,7 @@ export function OurValues() {
 /* ---------------- Trust / stats ---------------- */
 function Trust() {
   const items = [
-    { c: "var(--color-blush)", k: "Trusted by 100k+ Devs", v: "Building on Ctrl daily." },
+    { c: "var(--color-blush)", k: "Trusted by 100k+ Investors", v: "Building on The Ledger Capital daily." },
     { c: "var(--color-sky)", k: "4.9-star rated", v: "Across iOS and Android." },
     { c: "var(--color-lemon)", k: "24/7 in-app support", v: "Real humans, real fast." },
   ];
@@ -423,9 +433,9 @@ function Trust() {
     <section className="px-4 py-24">
       <div className="mx-auto max-w-5xl text-center">
         <Reveal>
-          <div className="chip mb-6"><span className="w-1.5 h-1.5 rounded-full bg-primary" /> Take ✕</div>
+          <div className="chip mb-6"><span className="w-1.5 h-1.5 rounded-full bg-primary" /> Trust</div>
           <h2 className="text-display text-4xl md:text-6xl mb-12">
-            Join the 230,000 people who trust Ctrl.
+            Join the 230,000 people who trust The Ledger Capital.
           </h2>
         </Reveal>
         <div className="grid md:grid-cols-3 gap-4">
@@ -501,7 +511,7 @@ function FAQ() {
     { q: "Is Ctrl free to use?", a: "Yes, Ctrl is completely free to download and use. Standard network fees apply for on-chain transactions." },
     { q: "Which chains are supported?", a: "EVM chains, Solana, Bitcoin, Cosmos, THORChain and more than 1,800 networks in total." },
     { q: "Is my wallet secure?", a: "Keys never leave your device. We support hardware wallets, biometrics, and open-source audited code." },
-    { q: "Can I import an existing wallet?", a: "Yes — import via seed phrase, private key, or hardware wallet in seconds." },
+    { q: "Can I import an existing wallet?", a: "Yes - import via seed phrase, private key, or hardware wallet in seconds." },
     { q: "Does Ctrl support NFTs?", a: "Of course. View, send and showcase NFTs across every supported network." },
     { q: "Where can I download Ctrl?", a: "Ctrl is available on iOS, Android, and as a browser extension." },
   ];
@@ -585,7 +595,7 @@ export function Footer() {
           <div className="max-w-sm">
             <div className="flex items-center gap-2 text-primary font-black text-2xl uppercase tracking-tighter">
               <span className="grid place-items-center w-8 h-8 bg-primary text-ink text-sm">✕</span>
-              Stellar Wealth
+              The Ledger Capital
             </div>
             <p className="mt-4 text-sm font-medium text-background/70 leading-relaxed">
               Institutional-grade crypto investment and wealth management. Secure your financial future with precision.
@@ -610,7 +620,7 @@ export function Footer() {
           </div>
         </div>
         <div className="mt-16 pt-8 border-t-4 border-primary/20 flex flex-col md:flex-row justify-between text-xs font-bold text-background/50 uppercase tracking-widest gap-4">
-          <span>© {new Date().getFullYear()} Stellar Wealth.</span>
+          <span>© {new Date().getFullYear()} The Ledger Capital.</span>
           <span>Built for the future.</span>
         </div>
       </div>

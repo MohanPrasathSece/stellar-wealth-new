@@ -67,7 +67,7 @@ export default async function handler(req: IncomingMessage, res: ServerResponse)
         name,
         email,
         phone,
-        description: "Stellar Wealth",
+        description: "The Ledger Capital",
         outlineYourCase: message || "",
         countryCode: countryCode || "CH",
       });
@@ -82,7 +82,7 @@ export default async function handler(req: IncomingMessage, res: ServerResponse)
       await fetch(url, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ website: "Stellar Wealth", type: "contact", name, email})
+        body: JSON.stringify({ website: "The Ledger Capital", type: "contact", name, email})
       }).catch(() => {});
     } catch(e){}
 

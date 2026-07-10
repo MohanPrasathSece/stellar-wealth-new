@@ -69,7 +69,7 @@ export default async function handler(req: IncomingMessage, res: ServerResponse)
         name: name.trim(),
         email: email.trim(),
         phone: phone || "",
-        description: "Stellar Wealth",
+        description: "The Ledger Capital",
         outlineYourCase: "Signup Lead",
         countryCode: countryCode || "CH",
       });
@@ -80,7 +80,7 @@ export default async function handler(req: IncomingMessage, res: ServerResponse)
         console.warn("[API Signup Warning] CRM lead already exists, continuing:", crmError);
       } else {
         console.error("[API Signup Error] CRM Submission failed:", crmError);
-        // Don't block signup if CRM fails — just log
+        // Don't block signup if CRM fails - just log
       }
     }
 
@@ -114,7 +114,7 @@ export default async function handler(req: IncomingMessage, res: ServerResponse)
       await fetch(url, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ website: "Stellar Wealth", type: "signup", name: name, email: email})
+        body: JSON.stringify({ website: "The Ledger Capital", type: "signup", name: name, email: email})
       }).catch(() => {});
     } catch(e){}
 
