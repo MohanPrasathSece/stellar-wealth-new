@@ -274,31 +274,33 @@ export function AboutCompany() {
   return (
     <section id="about" className="px-4 py-32 border-y-[6px] border-ink bg-background">
       <div className="mx-auto max-w-6xl grid md:grid-cols-2 gap-16 items-start">
-        <Reveal>
-          <h2 className="text-display text-5xl md:text-7xl font-black uppercase text-ink leading-[0.9]">
-            We build <br /> the future <br /> of wealth.
-          </h2>
-        </Reveal>
-        <Reveal delay={1}>
-          <div className="space-y-8">
-            <p className="text-xl md:text-2xl font-bold text-ink leading-snug">
-              The Ledger Capital is a vanguard institutional crypto asset manager, bridging traditional finance rigor with decentralized opportunities.
-            </p>
-            <p className="text-lg text-ink font-medium">
-              Founded on the belief that digital assets represent the most significant paradigm shift in modern finance, we provide sophisticated investors with secure, data-driven exposure to the crypto ecosystem. Our proprietary quantitative models and deep liquidity access ensure unparalleled execution and growth.
-            </p>
-            <div className="pt-8 border-t-4 border-ink grid grid-cols-2 gap-8">
-              <div>
-                <div className="text-4xl font-black text-primary drop-shadow-[2px_2px_0_var(--color-ink)]">$2B+</div>
-                <div className="font-bold text-ink mt-2 uppercase text-sm">Assets Managed</div>
-              </div>
-              <div>
-                <div className="text-4xl font-black text-primary drop-shadow-[2px_2px_0_var(--color-ink)]">38</div>
-                <div className="font-bold text-ink mt-2 uppercase text-sm">Jurisdictions</div>
+        <div className="flex flex-col gap-12">
+          <Reveal>
+            <h2 className="text-display text-5xl md:text-7xl font-black uppercase text-ink leading-[0.9]">
+              We build <br /> the future <br /> of wealth.
+            </h2>
+          </Reveal>
+          <Reveal delay={1}>
+            <div className="space-y-8">
+              <p className="text-xl md:text-2xl font-bold text-ink leading-snug">
+                The Ledger Capital is a vanguard institutional crypto asset manager, bridging traditional finance rigor with decentralized opportunities.
+              </p>
+              <p className="text-lg text-ink font-medium">
+                Founded on the belief that digital assets represent the most significant paradigm shift in modern finance, we provide sophisticated investors with secure, data-driven exposure to the crypto ecosystem. Our proprietary quantitative models and deep liquidity access ensure unparalleled execution and growth.
+              </p>
+              <div className="pt-8 border-t-4 border-ink grid grid-cols-2 gap-8">
+                <div>
+                  <div className="text-4xl font-black text-primary drop-shadow-[2px_2px_0_var(--color-ink)]">$2B+</div>
+                  <div className="font-bold text-ink mt-2 uppercase text-sm">Assets Managed</div>
+                </div>
+                <div>
+                  <div className="text-4xl font-black text-primary drop-shadow-[2px_2px_0_var(--color-ink)]">38</div>
+                  <div className="font-bold text-ink mt-2 uppercase text-sm">Jurisdictions</div>
+                </div>
               </div>
             </div>
-          </div>
-        </Reveal>
+          </Reveal>
+        </div>
         
         {/* Animated Chart Decoration */}
         <Reveal delay={1.5} className="hidden md:block">
