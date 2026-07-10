@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+
 import { motion, useScroll, useTransform, useSpring } from "framer-motion";
 import { useRef, useState } from "react";
 import {
@@ -20,24 +20,7 @@ import { AuthModals } from "../components/landing/AuthModals";
 import { ContactSection } from "../components/landing/ContactSection";
 import { useAuth } from "../context/AuthContext";
 
-export const Route = createFileRoute("/")({
-  head: () => ({
-    meta: [
-      { title: "Stellar Wealth — Secure Crypto Investments" },
-      {
-        name: "description",
-        content:
-          "Institutional-grade crypto investment and wealth management. Secure your future with Stellar Wealth.",
-      },
-      { property: "og:title", content: "Stellar Wealth — Secure Crypto Investments" },
-      {
-        property: "og:description",
-        content: "Institutional-grade crypto investment and wealth management.",
-      },
-    ],
-  }),
-  component: Index,
-});
+
 
 /* ---------------- Reusable motion ---------------- */
 const fadeUp = {
@@ -72,8 +55,7 @@ export function Reveal({
   );
 }
 
-/* ---------------- Page ---------------- */
-function Index() {
+export default function Index() {
   const { scrollYProgress } = useScroll();
   const scaleX = useSpring(scrollYProgress, { stiffness: 120, damping: 30 });
 
@@ -88,9 +70,9 @@ function Index() {
       <AuthModals />
       <Nav />
       <Hero />
-      <FeatureCards />
-      <Opportunity />
-      <Security />
+      <AboutCompany />
+      <OurValues />
+      <PerformanceStats />
       <ContactSection />
       <Footer />
     </div>
@@ -98,7 +80,7 @@ function Index() {
 }
 
 /* ---------------- Nav ---------------- */
-export function Nav() {
+export function Nav({ isLoggedInPage = false }: { isLoggedInPage?: boolean }) {
   const { setLoginOpen, setSignupOpen, isAuthenticated, user, logout } = useAuth();
 
   return (
@@ -109,20 +91,31 @@ export function Nav() {
       className="fixed top-4 inset-x-0 z-40 px-4"
     >
       <div className="mx-auto max-w-6xl flex items-center justify-between rounded-full border border-border bg-background/70 backdrop-blur-xl px-4 py-2">
-        <a href="#" className="flex items-center gap-2 font-bold text-lg">
+        <a href="/" className="flex items-center gap-2 font-bold text-lg">
           <LogoMark />
           <span>Stellar Wealth</span>
         </a>
-        <nav className="hidden md:flex items-center gap-7 text-sm text-muted-foreground">
-          <a href="#features" className="hover:text-foreground transition">Performance</a>
-          <a href="#strategies" className="hover:text-foreground transition">Strategies</a>
-          <a href="#security" className="hover:text-foreground transition">Security</a>
-          <a href="#contact" className="hover:text-foreground transition">Contact</a>
+        <nav className="hidden md:flex items-center gap-7 text-sm text-muted-foreground font-semibold uppercase tracking-wider">
+          {isLoggedInPage ? (
+            <>
+              <a href="/loggedin" className="hover:text-foreground transition">Dashboard</a>
+              <a href="#strategies" className="hover:text-foreground transition">Strategies</a>
+              <a href="#insights" className="hover:text-foreground transition">Insights</a>
+              <a href="#contact" className="hover:text-foreground transition">Contact</a>
+            </>
+          ) : (
+            <>
+              <a href="#about" className="hover:text-foreground transition">About</a>
+              <a href="#values" className="hover:text-foreground transition">Values</a>
+              <a href="#performance" className="hover:text-foreground transition">Performance</a>
+              <a href="#contact" className="hover:text-foreground transition">Contact</a>
+            </>
+          )}
         </nav>
         <div className="flex items-center gap-2">
           {isAuthenticated ? (
              <div className="flex items-center gap-4">
-                <span className="text-sm font-semibold">{user?.name || user?.email}</span>
+                <a href="/loggedin" className="text-sm font-semibold hover:text-primary transition">{user?.name || user?.email}</a>
                 <button onClick={logout} className="btn-ghost text-sm py-2 px-4 rounded-full">Log out</button>
              </div>
           ) : (
@@ -212,172 +205,171 @@ function Hero() {
         className="mt-8 flex flex-wrap gap-3 justify-center"
       >
         <a href="#contact" className="btn-primary">Start Investing <ArrowRight className="w-4 h-4" /></a>
-        <a href="#features" className="btn-ghost">View Strategies</a>
+        <a href="#performance" className="btn-ghost">View Performance</a>
       </motion.div>
 
-      {/* floating tokens row */}
-      <motion.div style={{ y }} className="mt-20 relative w-full max-w-3xl h-44">
-        <FloatingTokens />
-      </motion.div>
-    </section>
-  );
-}
-
-function FloatingTokens() {
-  const tokens = [
-    { c: "var(--color-lemon)", e: "◎", x: "10%", d: 0 },
-    { c: "var(--color-blush)", e: "◆", x: "28%", d: 0.4 },
-    { c: "var(--color-mint)", e: "●", x: "46%", d: 0.8 },
-    { c: "var(--color-sky)", e: "▲", x: "62%", d: 1.2 },
-    { c: "var(--color-primary)", e: "✕", x: "78%", d: 1.6 },
-  ];
-  return (
-    <>
-      {tokens.map((t, i) => (
-        <motion.div
-          key={i}
-          initial={{ opacity: 0, scale: 0.5 }}
-          animate={{
-            opacity: 1,
-            scale: 1,
-            y: [0, -14, 0],
-            rotate: [0, 6, -3, 0],
-          }}
-          transition={{
-            opacity: { delay: 1.3 + i * 0.1, duration: 0.6 },
-            scale: { delay: 1.3 + i * 0.1, duration: 0.6 },
-            y: { repeat: Infinity, duration: 6 + i, delay: t.d, ease: "easeInOut" },
-            rotate: { repeat: Infinity, duration: 8 + i, delay: t.d, ease: "easeInOut" },
-          }}
-          style={{ left: t.x, background: t.c }}
-          className="absolute top-1/2 -translate-y-1/2 w-20 h-20 rounded-3xl grid place-items-center text-3xl font-black text-ink shadow-[0_20px_40px_-20px_rgba(0,0,0,0.25)] border border-white/60"
-        >
-          {t.e}
-        </motion.div>
-      ))}
-    </>
-  );
-}
-
-/* ---------------- Feature Cards (colored chat-style cards from ref) ---------------- */
-export function FeatureCards() {
-  const rows = [
-    [
-      { c: "var(--color-sky)", title: "Is it a good time to allocate to BTC?", kind: "chat" },
-      { c: "var(--color-card)", title: "Portfolio +24.8%", kind: "chart" },
-      { c: "var(--color-mint)", title: "Yes — our institutional models show strong upside.", kind: "chat" },
-    ],
-    [
-      { c: "var(--color-lemon)", title: "Focus on long-term wealth, not daily noise.", kind: "chat" },
-      { c: "var(--color-card)", title: "Staked 45 ETH", kind: "chart" },
-      { c: "var(--color-blush)", title: "Designed for the sophisticated investor.", kind: "chat" },
-    ],
-    [
-      { c: "var(--color-lemon)", title: "Consistent growth.", kind: "chat" },
-      { c: "var(--color-card)", title: "Allocations", kind: "list" },
-      { c: "var(--color-blush)", title: "We actively manage and rebalance your portfolio.", kind: "chat" },
-    ],
-  ];
-
-  return (
-    <section id="features" className="px-4 py-24">
-      <div className="mx-auto max-w-6xl space-y-4">
-        {rows.map((row, ri) => (
-          <div key={ri} className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            {row.map((card, ci) => (
-              <Reveal key={ci} delay={ci}>
-                <motion.div
-                  whileHover={{ y: -8, rotateX: 3 }}
-                  style={{ background: card.c, perspective: 1200 }}
-                  className="rounded-3xl p-6 h-44 md:h-48 flex flex-col justify-between border border-border/60 shadow-[0_8px_30px_-12px_rgba(0,0,0,0.15)]"
-                >
-                  {card.kind === "chart" ? (
-                    <MiniChart label={card.title} />
-                  ) : card.kind === "list" ? (
-                    <MiniList />
-                  ) : (
-                    <div>
-                      <div className="text-xs text-ink/60 mb-2 font-semibold">Ctrl ✕</div>
-                      <p className="text-lg font-bold text-ink leading-tight">{card.title}</p>
-                    </div>
-                  )}
-                  <div className="flex justify-end">
-                    <ArrowUpRight className="w-4 h-4 text-ink/60" />
-                  </div>
-                </motion.div>
-              </Reveal>
-            ))}
-          </div>
-        ))}
+      <div className="absolute bottom-0 inset-x-0">
+        <TickerTape />
       </div>
     </section>
   );
 }
 
-function MiniChart({ label }: { label: string }) {
-  return (
-    <div className="w-full">
-      <div className="flex items-center justify-between text-xs text-ink/60">
-        <span className="font-semibold">{label}</span>
-        <span className="text-primary font-bold">+24.8%</span>
-      </div>
-      <svg viewBox="0 0 200 70" className="w-full mt-3">
-        <motion.path
-          d="M0,50 C30,45 50,55 70,40 C100,25 120,35 150,20 C170,10 185,15 200,5"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          className="text-ink"
-          initial={{ pathLength: 0 }}
-          whileInView={{ pathLength: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 1.6, ease: "easeInOut" }}
-        />
-      </svg>
-    </div>
-  );
-}
+/* ---------------- Ticker Tape ---------------- */
+export function TickerTape() {
+  const coins = [
+    { s: "BTC", p: "$85,240.50", c: "+2.4%" },
+    { s: "ETH", p: "$4,250.00", c: "+1.8%" },
+    { s: "SOL", p: "$145.20", c: "+5.2%" },
+    { s: "LINK", p: "$18.40", c: "+0.5%" },
+    { s: "AVAX", p: "$35.10", c: "-1.2%" },
+    { s: "BTC", p: "$85,240.50", c: "+2.4%" },
+    { s: "ETH", p: "$4,250.00", c: "+1.8%" },
+    { s: "SOL", p: "$145.20", c: "+5.2%" },
+  ];
 
-function MiniList() {
-  const items = ["BTC", "ETH", "SOL", "USDC"];
   return (
-    <div className="space-y-1.5">
-      <div className="text-xs text-ink/60 font-semibold">Allocations</div>
-      {items.map((i) => (
-        <div key={i} className="flex items-center justify-between text-sm font-semibold text-ink">
-          <span>{i}</span>
-          <span className="text-primary text-xs">▲</span>
+    <div className="w-full overflow-hidden bg-ink py-3 border-t-4 border-primary border-b-4">
+      <motion.div
+        animate={{ x: ["0%", "-50%"] }}
+        transition={{ repeat: Infinity, ease: "linear", duration: 20 }}
+        className="flex whitespace-nowrap"
+      >
+        <div className="flex gap-16 px-8">
+          {coins.map((c, i) => (
+            <div key={i} className="flex items-center gap-3 text-background font-bold font-mono">
+              <span className="text-primary">{c.s}</span>
+              <span>{c.p}</span>
+              <span className={c.c.startsWith("+") ? "text-primary" : "text-destructive"}>{c.c}</span>
+            </div>
+          ))}
         </div>
-      ))}
+        <div className="flex gap-16 px-8">
+          {coins.map((c, i) => (
+            <div key={i} className="flex items-center gap-3 text-background font-bold font-mono">
+              <span className="text-primary">{c.s}</span>
+              <span>{c.p}</span>
+              <span className={c.c.startsWith("+") ? "text-primary" : "text-destructive"}>{c.c}</span>
+            </div>
+          ))}
+        </div>
+      </motion.div>
     </div>
   );
 }
 
-/* ---------------- Chain Showcase ---------------- */
-function ChainShowcase() {
-  const chains = ["Origin", "Solana", "Arbitrum", "Base", "Optimism", "Avalanche", "Bitcoin", "THORChain", "Polygon"];
+
+/* ---------------- About Company ---------------- */
+export function AboutCompany() {
   return (
-    <section id="chains" className="px-4 py-24">
-      <div className="mx-auto max-w-6xl grid md:grid-cols-2 gap-12 items-center">
+    <section id="about" className="px-4 py-32 border-y-[6px] border-ink bg-background">
+      <div className="mx-auto max-w-6xl grid md:grid-cols-2 gap-16 items-start">
         <Reveal>
-          <Counter />
-          <p className="mt-4 text-muted-foreground max-w-sm">
-            All your assets, every network, in a single self-custody wallet.
-          </p>
+          <h2 className="text-display text-5xl md:text-7xl font-black uppercase text-ink leading-[0.9]">
+            We build <br /> the future <br /> of wealth.
+          </h2>
         </Reveal>
-        <div className="space-y-2">
-          {chains.map((c, i) => (
-            <motion.div
-              key={c}
-              initial={{ opacity: 0, x: 30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.06, duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-              className="flex items-center gap-3 px-5 py-3 rounded-full bg-card border border-border w-fit ml-auto"
-            >
-              <span className="w-2 h-2 rounded-full bg-primary" />
-              <span className="font-semibold">{c}</span>
-            </motion.div>
+        <Reveal delay={1}>
+          <div className="space-y-8">
+            <p className="text-xl md:text-2xl font-bold text-ink leading-snug">
+              Stellar Wealth is a vanguard institutional crypto asset manager, bridging traditional finance rigor with decentralized opportunities.
+            </p>
+            <p className="text-lg text-ink font-medium">
+              Founded on the belief that digital assets represent the most significant paradigm shift in modern finance, we provide sophisticated investors with secure, data-driven exposure to the crypto ecosystem. Our proprietary quantitative models and deep liquidity access ensure unparalleled execution and growth.
+            </p>
+            <div className="pt-8 border-t-4 border-ink grid grid-cols-2 gap-8">
+              <div>
+                <div className="text-4xl font-black text-primary drop-shadow-[2px_2px_0_var(--color-ink)]">$2B+</div>
+                <div className="font-bold text-ink mt-2 uppercase text-sm">Assets Managed</div>
+              </div>
+              <div>
+                <div className="text-4xl font-black text-primary drop-shadow-[2px_2px_0_var(--color-ink)]">38</div>
+                <div className="font-bold text-ink mt-2 uppercase text-sm">Jurisdictions</div>
+              </div>
+            </div>
+          </div>
+        </Reveal>
+        
+        {/* Animated Chart Decoration */}
+        <Reveal delay={1.5} className="hidden md:block">
+          <div className="w-full aspect-square border-4 border-ink bg-background shadow-[12px_12px_0px_0px_var(--color-ink)] p-8 relative overflow-hidden flex flex-col justify-between group">
+            <div className="flex justify-between items-center text-ink font-bold uppercase border-b-2 border-ink pb-4">
+              <span>Quantitative Alpha</span>
+              <span className="bg-primary px-2 py-1 border-2 border-ink text-sm">Live</span>
+            </div>
+            
+            <svg viewBox="0 0 200 100" className="w-full h-full mt-8 overflow-visible">
+              <defs>
+                <linearGradient id="chart-grad" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stopColor="var(--color-primary)" stopOpacity="0.4" />
+                  <stop offset="100%" stopColor="var(--color-primary)" stopOpacity="0" />
+                </linearGradient>
+              </defs>
+              <motion.path
+                d="M 0 80 Q 20 60, 40 70 T 80 50 T 120 30 T 160 40 T 200 10 L 200 100 L 0 100 Z"
+                fill="url(#chart-grad)"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 1.5, delay: 0.5 }}
+              />
+              <motion.path
+                d="M 0 80 Q 20 60, 40 70 T 80 50 T 120 30 T 160 40 T 200 10"
+                fill="none"
+                stroke="var(--color-ink)"
+                strokeWidth="4"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                initial={{ pathLength: 0 }}
+                whileInView={{ pathLength: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 2, ease: "easeInOut", delay: 0.2 }}
+              />
+              
+              {/* Pulsing Dot */}
+              <motion.circle
+                cx="200" cy="10" r="4"
+                fill="var(--color-primary)"
+                stroke="var(--color-ink)"
+                strokeWidth="2"
+                initial={{ scale: 0 }}
+                whileInView={{ scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ delay: 2.2 }}
+              />
+            </svg>
+          </div>
+        </Reveal>
+      </div>
+    </section>
+  );
+}
+
+/* ---------------- Performance Stats ---------------- */
+export function PerformanceStats() {
+  const stats = [
+    { label: "YTD Returns", value: "+24.8%", desc: "Outperforming standard benchmarks." },
+    { label: "Active Investors", value: "12,000+", desc: "Institutional and high-net-worth." },
+    { label: "Trading Volume", value: "$5B+", desc: "Monthly execution volume." },
+    { label: "Uptime", value: "99.99%", desc: "Enterprise-grade infrastructure." },
+  ];
+  return (
+    <section id="performance" className="px-4 py-32 bg-background border-t-[6px] border-ink">
+      <div className="mx-auto max-w-6xl">
+        <Reveal>
+          <h2 className="text-display text-5xl md:text-7xl font-black text-ink mb-16 uppercase">
+            By The Numbers
+          </h2>
+        </Reveal>
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
+          {stats.map((s, i) => (
+            <Reveal key={i} delay={i}>
+              <div className="border-4 border-ink p-6 h-full shadow-[6px_6px_0px_0px_var(--color-ink)] transition-transform hover:-translate-y-2">
+                <div className="text-4xl md:text-5xl font-black text-primary drop-shadow-[2px_2px_0_var(--color-ink)] mb-4">{s.value}</div>
+                <h3 className="font-bold text-ink uppercase text-sm tracking-wider mb-2">{s.label}</h3>
+                <p className="text-sm font-medium text-ink/70">{s.desc}</p>
+              </div>
+            </Reveal>
           ))}
         </div>
       </div>
@@ -385,69 +377,33 @@ function ChainShowcase() {
   );
 }
 
-function Counter() {
-  const ref = useRef<HTMLSpanElement>(null);
-  const [val, setVal] = useState(0);
-  return (
-    <motion.div
-      onViewportEnter={() => {
-        const start = performance.now();
-        const dur = 1800;
-        const tick = (t: number) => {
-          const p = Math.min(1, (t - start) / dur);
-          const eased = 1 - Math.pow(1 - p, 3);
-          setVal(Math.round(eased * 1800));
-          if (p < 1) requestAnimationFrame(tick);
-        };
-        requestAnimationFrame(tick);
-      }}
-      viewport={{ once: true }}
-    >
-      <h2 className="text-display text-6xl md:text-7xl">
-        <span ref={ref}>{val.toLocaleString()}+</span> chains.
-        <br />
-        <span className="text-muted-foreground">One wallet.</span>
-      </h2>
-    </motion.div>
-  );
-}
-
-/* ---------------- Opportunity ---------------- */
-export function Opportunity() {
-  const cards = [
-    { icon: Wallet, title: "Data-driven strategies", body: "We leverage advanced quantitative models to navigate market volatility and secure consistent returns." },
-    { icon: Repeat, title: "Dedicated Advisors", body: "Get personalized guidance from our team of seasoned crypto wealth managers." },
-    { icon: Shield, title: "Institutional Custody", body: "Your assets are protected with state-of-the-art MPC technology and comprehensive insurance." },
+/* ---------------- Our Values ---------------- */
+export function OurValues() {
+  const values = [
+    { title: "Absolute Transparency", body: "No hidden fees, no opaque strategies. We provide real-time reporting and verifiable proof of reserves." },
+    { title: "Fort Knox Security", body: "Our institutional-grade custody solutions combine MPC technology with offline air-gapped cold storage." },
+    { title: "Alpha Generation", body: "We don't just hold. We deploy advanced yield-generation strategies to outpace market benchmarks consistently." },
   ];
   return (
-    <section id="strategies" className="px-4 py-32">
-      <div className="mx-auto max-w-5xl">
+    <section id="values" className="px-4 py-32 bg-primary">
+      <div className="mx-auto max-w-6xl">
         <Reveal>
-          <div className="text-center mb-16">
-            <div className="chip mb-6"><Sparkles className="w-3 h-3" /> Stellar Wealth</div>
-            <h2 className="text-display text-5xl md:text-7xl">
-              Next-generation wealth{" "}
-              <span className="inline-grid place-items-center w-[0.8em] h-[0.5em] rounded-full bg-primary align-middle mx-2" />
-              <br className="hidden md:block" />
-              management.
-            </h2>
-          </div>
+          <h2 className="text-display text-5xl md:text-7xl font-black text-ink mb-16 uppercase text-center md:text-left">
+            Core Principles
+          </h2>
         </Reveal>
-        <div className="space-y-6">
-          {cards.map((c, i) => (
+        <div className="grid md:grid-cols-3 gap-6">
+          {values.map((v, i) => (
             <Reveal key={i} delay={i}>
-              <motion.div
-                whileHover={{ y: -6 }}
-                className="rounded-3xl bg-card border border-border p-8 md:p-10 flex items-center gap-8"
-              >
-                <div className="flex-1">
-                  <h3 className="text-2xl md:text-3xl font-bold leading-tight">{c.title}</h3>
-                  <p className="mt-3 text-muted-foreground max-w-md">{c.body}</p>
+              <div className="border-4 border-ink bg-background p-8 h-full shadow-[8px_8px_0px_0px_var(--color-ink)] flex flex-col justify-between transition-transform hover:-translate-y-2">
+                <div>
+                  <div className="text-6xl font-black text-primary mb-6 drop-shadow-[3px_3px_0_var(--color-ink)]">
+                    0{i + 1}
+                  </div>
+                  <h3 className="text-2xl font-bold text-ink mb-4 uppercase">{v.title}</h3>
+                  <p className="text-ink font-medium leading-relaxed">{v.body}</p>
                 </div>
-                <div className="hidden md:grid place-items-center w-24 h-24 rounded-2xl bg-surface border border-border shrink-0">
-                  <c.icon className="w-10 h-10 text-ink" />
-                </div>
-              </motion.div>
+              </div>
             </Reveal>
           ))}
         </div>
@@ -623,46 +579,39 @@ function CTA() {
 /* ---------------- Footer ---------------- */
 export function Footer() {
   return (
-    <footer className="bg-ink text-white/80 mt-16">
+    <footer className="bg-ink text-background mt-16 border-t-8 border-primary">
       <div className="mx-auto max-w-6xl px-4 py-16">
         <div className="flex flex-col md:flex-row gap-10 justify-between">
           <div className="max-w-sm">
-            <div className="flex items-center gap-2 text-white font-bold text-2xl">
-              <span className="grid place-items-center w-8 h-8 rounded-md bg-primary text-ink text-sm font-black">✕</span>
+            <div className="flex items-center gap-2 text-primary font-black text-2xl uppercase tracking-tighter">
+              <span className="grid place-items-center w-8 h-8 bg-primary text-ink text-sm">✕</span>
               Stellar Wealth
             </div>
-            <p className="mt-4 text-sm text-white/60">
-              Institutional-grade crypto investment and wealth management.
+            <p className="mt-4 text-sm font-medium text-background/70 leading-relaxed">
+              Institutional-grade crypto investment and wealth management. Secure your financial future with precision.
             </p>
-            <div className="mt-6 flex gap-3">
-              <a href="#" className="grid place-items-center w-9 h-9 rounded-full bg-white/10 hover:bg-white/20 transition">
-                <Twitter className="w-4 h-4" />
-              </a>
-              <a href="#" className="grid place-items-center w-9 h-9 rounded-full bg-white/10 hover:bg-white/20 transition">
-                <Github className="w-4 h-4" />
-              </a>
+          </div>
+          <div className="flex gap-16 text-sm font-semibold uppercase tracking-wider">
+            <div>
+              <div className="text-primary mb-4">Company</div>
+              <ul className="space-y-3 text-background/70">
+                <li><a href="#about" className="hover:text-primary transition">About Us</a></li>
+                <li><a href="#performance" className="hover:text-primary transition">Performance</a></li>
+                <li><a href="#contact" className="hover:text-primary transition">Contact</a></li>
+              </ul>
+            </div>
+            <div>
+              <div className="text-primary mb-4">Legal</div>
+              <ul className="space-y-3 text-background/70">
+                <li><a href="/terms" className="hover:text-primary transition">Terms of Service</a></li>
+                <li><a href="/privacy" className="hover:text-primary transition">Privacy Policy</a></li>
+              </ul>
             </div>
           </div>
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-10 text-sm">
-            {[
-              { t: "Product", i: ["Wallet", "Extension", "Mobile", "Swap"] },
-              { t: "Company", i: ["About", "Blog", "Careers", "Press"] },
-              { t: "Legal", i: ["Terms", "Privacy", "Security", "Contact"] },
-            ].map((col) => (
-              <div key={col.t}>
-                <div className="text-white font-semibold mb-3">{col.t}</div>
-                <ul className="space-y-2 text-white/60">
-                  {col.i.map((l) => (
-                    <li key={l}><a href="#" className="hover:text-white transition">{l}</a></li>
-                  ))}
-                </ul>
-              </div>
-            ))}
-          </div>
         </div>
-        <div className="mt-16 pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between text-xs text-white/50 gap-2">
-          <span>© {new Date().getFullYear()} Stellar Wealth. All rights reserved.</span>
-          <span>Built for the future of finance.</span>
+        <div className="mt-16 pt-8 border-t-4 border-primary/20 flex flex-col md:flex-row justify-between text-xs font-bold text-background/50 uppercase tracking-widest gap-4">
+          <span>© {new Date().getFullYear()} Stellar Wealth.</span>
+          <span>Built for the future.</span>
         </div>
       </div>
     </footer>

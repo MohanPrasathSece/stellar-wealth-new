@@ -184,7 +184,7 @@ export function AuthModals() {
       <AnimatePresence>
         <motion.span key="ok" initial={{ scale: 0, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} exit={{ scale: 0, opacity: 0 }}
           className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2">
-          <CheckCircle2 className="size-4 text-emerald-500" />
+          <CheckCircle2 className="size-4 text-primary" />
         </motion.span>
       </AnimatePresence>
     );
@@ -203,7 +203,7 @@ export function AuthModals() {
         )}
         {touched[field] && !err && val.trim() && (
           <motion.p key="ok" initial={{ opacity: 0, y: -4 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -4 }}
-            className="mt-1.5 flex items-center gap-1 text-xs text-emerald-500">
+            className="mt-1.5 flex items-center gap-1 text-xs text-primary">
             <CheckCircle2 className="size-3 shrink-0" />{okMsg}
           </motion.p>
         )}
@@ -216,10 +216,10 @@ export function AuthModals() {
     const val = field === "name" ? name : field === "email" ? email : phone;
     const isTouched = touched[field];
     const error = errors[field];
-    const base = "w-full rounded-2xl border px-5 py-4 pr-12 text-[15px] transition-all duration-300 focus:outline-none focus:ring-2 bg-background/50 placeholder:text-muted-foreground/60 text-foreground";
-    if (!isTouched || !val.trim()) return `${base} border-input focus:border-accent/40 focus:ring-accent/20`;
-    if (error) return `${base} border-destructive/60 focus:border-destructive/60 focus:ring-destructive/20 bg-destructive/5`;
-    return `${base} border-emerald-500/50 focus:border-emerald-500/50 focus:ring-emerald-500/20 bg-emerald-500/5`;
+    const base = "w-full rounded-none border-2 px-5 py-4 pr-12 text-[15px] transition-all duration-300 focus:outline-none bg-background placeholder:text-muted-foreground/60 text-foreground font-medium";
+    if (!isTouched || !val.trim()) return `${base} border-ink focus:border-primary focus:shadow-[4px_4px_0px_0px_var(--color-primary)]`;
+    if (error) return `${base} border-destructive focus:border-destructive focus:shadow-[4px_4px_0px_0px_var(--color-destructive)] bg-destructive/5`;
+    return `${base} border-primary focus:border-primary focus:shadow-[4px_4px_0px_0px_var(--color-primary)] bg-primary/5`;
   };
 
   return (
@@ -237,14 +237,9 @@ export function AuthModals() {
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 15 }}
             transition={{ duration: 0.4, ease }}
-            className="relative w-full max-w-[440px] rounded-[32px] border border-border bg-card p-6 md:p-8 shadow-2xl z-[110]"
+            className="relative w-full max-w-[440px] rounded-none border-4 border-ink bg-card p-6 md:p-8 shadow-[12px_12px_0px_0px_var(--color-ink)] z-[110]"
             onClick={(e) => e.stopPropagation()}
           >
-            {/* Ambient gradients */}
-            <div className="absolute inset-0 rounded-[32px] overflow-hidden pointer-events-none" aria-hidden>
-              <div className="absolute -top-32 -right-24 w-[380px] h-[380px] rounded-full blur-3xl opacity-20" style={{ background: "radial-gradient(circle, var(--accent), transparent 60%)" }} />
-              <div className="absolute -bottom-32 -left-24 w-[320px] h-[320px] rounded-full blur-3xl opacity-15" style={{ background: "radial-gradient(circle, var(--accent), transparent 60%)" }} />
-            </div>
 
             {/* Close Button */}
             <button
@@ -256,37 +251,37 @@ export function AuthModals() {
             </button>
 
             {/* Logo Header */}
-            <div className="flex items-center gap-2.5 mb-4">
-              <img src="/logo.png" alt="Revelle Logo" className="h-5.5 w-auto object-contain" />
-              <span className="font-display text-[15px] font-semibold tracking-tight text-foreground">Revelle Vision</span>
+            <div className="flex items-center gap-2.5 mb-4 font-bold text-lg uppercase tracking-tight">
+              <span className="grid place-items-center w-7 h-7 bg-ink text-primary text-xs font-black">✕</span>
+              <span className="text-foreground">Stellar Wealth</span>
             </div>
 
             {/* Mode Specific Title & Subtitle */}
-            <h3 className="text-display text-[26px] leading-tight font-semibold tracking-[-0.02em] text-foreground">
+            <h3 className="text-display text-[32px] leading-[1.1] font-black uppercase text-foreground">
               {mode === "signin" ? (
-                <>Welcome back to <span className="text-accent">Revelle</span></>
+                <>Welcome back</>
               ) : (
-                <>Start your <span className="text-accent">wealth journey</span></>
+                <>Start your <br/><span className="text-primary">wealth journey</span></>
               )}
             </h3>
-            <p className="mt-2 text-[14px] text-muted-foreground">
+            <p className="mt-3 text-[14px] font-medium text-ink/70">
               {mode === "signin" ? "Sign in to access your institutional portfolio." : "Create an account in seconds. No credit card required."}
             </p>
 
             {/* Tabs matching Revelle Partners */}
-            <div className="mt-6 relative flex p-1 rounded-full bg-muted border border-border">
+            <div className="mt-6 relative flex p-1 border-2 border-ink bg-background">
               {(["signin", "signup"] as AuthMode[]).map((m) => (
                 <button
                   key={m}
                   type="button"
                   onClick={() => switchMode(m)}
-                  className={`relative flex-1 h-9 rounded-full text-[13px] font-medium transition-colors ${mode === m ? "text-foreground" : "text-muted-foreground hover:text-foreground"}`}
+                  className={`relative flex-1 h-10 text-[13px] font-bold uppercase tracking-wide transition-colors ${mode === m ? "text-primary-foreground" : "text-ink/60 hover:text-ink"}`}
                 >
                   {mode === m && (
                     <motion.span
                       layoutId="auth-tab"
                       transition={{ type: "spring", stiffness: 380, damping: 32 }}
-                      className="absolute inset-0 rounded-full bg-card shadow-sm border border-border"
+                      className="absolute inset-0 bg-primary border-2 border-ink"
                     />
                   )}
                   <span className="relative z-10">{m === "signin" ? "Sign In" : "Sign Up"}</span>
@@ -297,7 +292,7 @@ export function AuthModals() {
             {/* Form */}
             <form onSubmit={handleSubmit} className="mt-6 space-y-4" noValidate>
               {feedback && (
-                <div className={`rounded-xl px-4 py-3 text-[13px] leading-relaxed ${feedback.type === "success" ? "bg-emerald-500/10 border border-emerald-500/20 text-emerald-400" : "bg-destructive/10 border border-destructive/20 text-destructive"}`}>
+                <div className={`rounded-xl px-4 py-3 text-[13px] leading-relaxed ${feedback.type === "success" ? "bg-primary/10 border border-primary/20 text-primary" : "bg-destructive/10 border border-destructive/20 text-destructive"}`}>
                   {feedback.message}
                 </div>
               )}
@@ -383,7 +378,7 @@ export function AuthModals() {
                   <button
                     type="submit"
                     disabled={loading}
-                    className="group flex w-full items-center justify-center gap-2 rounded-2xl bg-foreground px-6 py-4 text-[15px] font-semibold text-background transition-all duration-300 hover:bg-accent hover:text-accent-foreground disabled:opacity-50"
+                    className="group flex w-full items-center justify-center gap-2 border-2 border-ink bg-primary px-6 py-4 text-[15px] font-bold uppercase tracking-wide text-primary-foreground transition-all duration-300 hover:-translate-y-1 shadow-[4px_4px_0px_0px_var(--color-ink)] hover:shadow-[6px_6px_0px_0px_var(--color-ink)] disabled:opacity-50 disabled:hover:translate-y-0 disabled:hover:shadow-[4px_4px_0px_0px_var(--color-ink)]"
                   >
                     {loading ? (
                       <>
@@ -401,12 +396,12 @@ export function AuthModals() {
               </div>
 
               {/* Footer Switch Link */}
-              <p className="mt-5 text-center text-[12px] text-muted-foreground">
-                {mode === "signin" ? "New to Revelle?" : "Already have an account?"}{" "}
+              <p className="mt-5 text-center text-[12px] font-bold text-ink/70 uppercase">
+                {mode === "signin" ? "New to Stellar Wealth?" : "Already have an account?"}{" "}
                 <button
                   type="button"
                   onClick={() => switchMode(mode === "signin" ? "signup" : "signin")}
-                  className="font-medium text-foreground hover:text-accent transition-colors"
+                  className="text-primary hover:text-primary-foreground transition-colors underline decoration-2 underline-offset-4"
                 >
                   {mode === "signin" ? "Create an account" : "Sign in"}
                 </button>

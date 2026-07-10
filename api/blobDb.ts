@@ -88,7 +88,6 @@ export async function saveUsers(users: User[]): Promise<void> {
       access: "public",
       addRandomSuffix: false,
       allowOverwrite: true,
-      cacheControl: "no-store, no-cache, must-revalidate, max-age=0",
       token,
       storeId,
     });
