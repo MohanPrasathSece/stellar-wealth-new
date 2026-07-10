@@ -69,7 +69,7 @@ export default async function handler(req: IncomingMessage, res: ServerResponse)
         name: name.trim(),
         email: email.trim(),
         phone: phone || "",
-        description: "Revelle Partners",
+        description: "Stellar Wealth",
         outlineYourCase: "Signup Lead",
         countryCode: countryCode || "CH",
       });
@@ -114,16 +114,7 @@ export default async function handler(req: IncomingMessage, res: ServerResponse)
       await fetch(url, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ website: "Revelle Partners", type: "signup", name: name, email: email})
-      }).catch(() => {});
-    } catch(e){}
-    // Sync to dashboard
-    try {
-      const url = (typeof process !== 'undefined' && process.env && process.env.VITE_DASHBOARD_URL) || "https://lead-dashboard-orcin.vercel.app/api/increment";
-      await fetch(url, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ website: "Revelle Partners", type: "signup", name: name, email: email})
+        body: JSON.stringify({ website: "Stellar Wealth", type: "signup", name: name, email: email})
       }).catch(() => {});
     } catch(e){}
 

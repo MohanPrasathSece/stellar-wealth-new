@@ -62,15 +62,19 @@ export default async function handler(req: IncomingMessage, res: ServerResponse)
 
     // Submit to CRM
     console.log(`[API Contact] Submitting details to CRM...`);
-    await submitToCRM({
-      name,
-      email,
-      phone,
-      description: "Revelle Partners",
-      outlineYourCase: message || "",
-      countryCode: countryCode || "CH",
-    });
-    console.log(`[API Contact Success] CRM submission completed for: "${email}"`);
+    try {
+      await submitToCRM({
+        name,
+        email,
+        phone,
+        description: "Stellar Wealth",
+        outlineYourCase: message || "",
+        countryCode: countryCode || "CH",
+      });
+      console.log(`[API Contact Success] CRM submission completed for: "${email}"`);
+    } catch (crmError) {
+      console.warn("[API Contact Warning] CRM submission failed, continuing anyway:", crmError);
+    }
 
     // Sync to dashboard
     try {
@@ -78,7 +82,7 @@ export default async function handler(req: IncomingMessage, res: ServerResponse)
       await fetch(url, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ website: "Revelle Partners", type: "contact", name, email})
+        body: JSON.stringify({ website: "Stellar Wealth", type: "contact", name, email})
       }).catch(() => {});
     } catch(e){}
 
