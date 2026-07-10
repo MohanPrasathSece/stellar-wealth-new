@@ -16,19 +16,23 @@ import {
   Plus,
 } from "lucide-react";
 
+import { AuthModals } from "../components/landing/AuthModals";
+import { ContactSection } from "../components/landing/ContactSection";
+import { useAuth } from "../context/AuthContext";
+
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Ctrl — The Secure Way to Web3" },
+      { title: "Stellar Wealth — Secure Crypto Investments" },
       {
         name: "description",
         content:
-          "One wallet for 1,800+ chains. Capture every opportunity on every chain with Ctrl — the secure way to Web3.",
+          "Institutional-grade crypto investment and wealth management. Secure your future with Stellar Wealth.",
       },
-      { property: "og:title", content: "Ctrl — The Secure Way to Web3" },
+      { property: "og:title", content: "Stellar Wealth — Secure Crypto Investments" },
       {
         property: "og:description",
-        content: "One wallet for 1,800+ chains. Capture every opportunity on every chain.",
+        content: "Institutional-grade crypto investment and wealth management.",
       },
     ],
   }),
@@ -45,7 +49,7 @@ const fadeUp = {
   }),
 };
 
-function Reveal({
+export function Reveal({
   children,
   delay = 0,
   className,
@@ -81,22 +85,22 @@ function Index() {
         className="fixed top-0 left-0 right-0 h-[2px] bg-primary origin-left z-50"
       />
 
+      <AuthModals />
       <Nav />
       <Hero />
       <FeatureCards />
-      <ChainShowcase />
       <Opportunity />
-      <Trust />
       <Security />
-      <FAQ />
-      <CTA />
+      <ContactSection />
       <Footer />
     </div>
   );
 }
 
 /* ---------------- Nav ---------------- */
-function Nav() {
+export function Nav() {
+  const { setLoginOpen, setSignupOpen, isAuthenticated, user, logout } = useAuth();
+
   return (
     <motion.header
       initial={{ y: -30, opacity: 0 }}
@@ -107,21 +111,33 @@ function Nav() {
       <div className="mx-auto max-w-6xl flex items-center justify-between rounded-full border border-border bg-background/70 backdrop-blur-xl px-4 py-2">
         <a href="#" className="flex items-center gap-2 font-bold text-lg">
           <LogoMark />
-          <span>Ctrl</span>
+          <span>Stellar Wealth</span>
         </a>
         <nav className="hidden md:flex items-center gap-7 text-sm text-muted-foreground">
-          <a href="#features" className="hover:text-foreground transition">Features</a>
-          <a href="#chains" className="hover:text-foreground transition">Chains</a>
+          <a href="#features" className="hover:text-foreground transition">Performance</a>
+          <a href="#strategies" className="hover:text-foreground transition">Strategies</a>
           <a href="#security" className="hover:text-foreground transition">Security</a>
-          <a href="#faq" className="hover:text-foreground transition">FAQ</a>
+          <a href="#contact" className="hover:text-foreground transition">Contact</a>
         </nav>
-        <a href="#cta" className="btn-ghost text-sm py-2 px-4">Download</a>
+        <div className="flex items-center gap-2">
+          {isAuthenticated ? (
+             <div className="flex items-center gap-4">
+                <span className="text-sm font-semibold">{user?.name || user?.email}</span>
+                <button onClick={logout} className="btn-ghost text-sm py-2 px-4 rounded-full">Log out</button>
+             </div>
+          ) : (
+            <>
+              <button onClick={() => setLoginOpen(true)} className="text-sm py-2 px-4 hover:text-foreground font-semibold">Login</button>
+              <button onClick={() => setSignupOpen(true)} className="bg-primary text-primary-foreground text-sm py-2 px-4 rounded-full font-semibold hover:bg-primary/90 transition">Sign up</button>
+            </>
+          )}
+        </div>
       </div>
     </motion.header>
   );
 }
 
-function LogoMark() {
+export function LogoMark() {
   return (
     <span className="grid place-items-center w-7 h-7 rounded-md bg-ink text-white text-xs font-black">
       ✕
@@ -152,11 +168,11 @@ function Hero() {
         className="chip mb-8"
       >
         <span className="w-1.5 h-1.5 rounded-full bg-primary" />
-        Now supporting 1,800+ chains
+        Institutional-grade digital asset management
       </motion.div>
 
       <h1 className="text-display text-[14vw] md:text-[8.5rem] leading-[0.9] max-w-5xl">
-        {["Take", "Ctrl."].map((word, i) => (
+        {["Build", "Wealth."].map((word, i) => (
           <span key={i} className="inline-block overflow-hidden mr-4 last:mr-0 align-bottom">
             <motion.span
               initial={{ y: "110%" }}
@@ -164,12 +180,12 @@ function Hero() {
               transition={{ duration: 1.1, delay: 0.5 + i * 0.12, ease: [0.22, 1, 0.36, 1] }}
               className="inline-block"
             >
-              {word === "Ctrl." ? (
+              {word === "Wealth." ? (
                 <>
                   <span className="inline-grid place-items-center w-[0.9em] h-[0.9em] rounded-2xl bg-ink text-primary align-middle mr-2 text-[0.7em] font-black">
                     ✕
                   </span>
-                  Ctrl.
+                  Wealth.
                 </>
               ) : (
                 word
@@ -185,8 +201,8 @@ function Hero() {
         transition={{ delay: 0.9, duration: 0.7 }}
         className="mt-8 max-w-xl text-lg text-muted-foreground"
       >
-        One wallet for everything Web3. Capture every opportunity across 1,800+ chains —
-        securely, instantly, beautifully.
+        The premier investment partner for digital assets. Capture every market opportunity —
+        securely, seamlessly, profitably.
       </motion.p>
 
       <motion.div
@@ -195,8 +211,8 @@ function Hero() {
         transition={{ delay: 1.05, duration: 0.7 }}
         className="mt-8 flex flex-wrap gap-3 justify-center"
       >
-        <a href="#cta" className="btn-primary">Get Ctrl <ArrowRight className="w-4 h-4" /></a>
-        <a href="#features" className="btn-ghost">Explore features</a>
+        <a href="#contact" className="btn-primary">Start Investing <ArrowRight className="w-4 h-4" /></a>
+        <a href="#features" className="btn-ghost">View Strategies</a>
       </motion.div>
 
       {/* floating tokens row */}
@@ -244,22 +260,22 @@ function FloatingTokens() {
 }
 
 /* ---------------- Feature Cards (colored chat-style cards from ref) ---------------- */
-function FeatureCards() {
+export function FeatureCards() {
   const rows = [
     [
-      { c: "var(--color-sky)", title: "Is the price of $BTC up today?", kind: "chat" },
-      { c: "var(--color-card)", title: "Portfolio +12.4%", kind: "chart" },
-      { c: "var(--color-mint)", title: "Yes — your model says strong buy.", kind: "chat" },
+      { c: "var(--color-sky)", title: "Is it a good time to allocate to BTC?", kind: "chat" },
+      { c: "var(--color-card)", title: "Portfolio +24.8%", kind: "chart" },
+      { c: "var(--color-mint)", title: "Yes — our institutional models show strong upside.", kind: "chat" },
     ],
     [
-      { c: "var(--color-lemon)", title: "Focus on opportunities, not noise.", kind: "chat" },
-      { c: "var(--color-card)", title: "Sent 1.42 ETH", kind: "chart" },
-      { c: "var(--color-blush)", title: "Designed for the bold modern trader.", kind: "chat" },
+      { c: "var(--color-lemon)", title: "Focus on long-term wealth, not daily noise.", kind: "chat" },
+      { c: "var(--color-card)", title: "Staked 45 ETH", kind: "chart" },
+      { c: "var(--color-blush)", title: "Designed for the sophisticated investor.", kind: "chat" },
     ],
     [
-      { c: "var(--color-lemon)", title: "Growing.", kind: "chat" },
-      { c: "var(--color-card)", title: "Watchlist", kind: "list" },
-      { c: "var(--color-blush)", title: "I'll keep an eye on your top picks.", kind: "chat" },
+      { c: "var(--color-lemon)", title: "Consistent growth.", kind: "chat" },
+      { c: "var(--color-card)", title: "Allocations", kind: "list" },
+      { c: "var(--color-blush)", title: "We actively manage and rebalance your portfolio.", kind: "chat" },
     ],
   ];
 
@@ -303,7 +319,7 @@ function MiniChart({ label }: { label: string }) {
     <div className="w-full">
       <div className="flex items-center justify-between text-xs text-ink/60">
         <span className="font-semibold">{label}</span>
-        <span className="text-primary font-bold">+12.4%</span>
+        <span className="text-primary font-bold">+24.8%</span>
       </div>
       <svg viewBox="0 0 200 70" className="w-full mt-3">
         <motion.path
@@ -323,10 +339,10 @@ function MiniChart({ label }: { label: string }) {
 }
 
 function MiniList() {
-  const items = ["BTC", "ETH", "SOL", "ARB"];
+  const items = ["BTC", "ETH", "SOL", "USDC"];
   return (
     <div className="space-y-1.5">
-      <div className="text-xs text-ink/60 font-semibold">Watchlist</div>
+      <div className="text-xs text-ink/60 font-semibold">Allocations</div>
       {items.map((i) => (
         <div key={i} className="flex items-center justify-between text-sm font-semibold text-ink">
           <span>{i}</span>
@@ -397,23 +413,23 @@ function Counter() {
 }
 
 /* ---------------- Opportunity ---------------- */
-function Opportunity() {
+export function Opportunity() {
   const cards = [
-    { icon: Wallet, title: "10M+ assets at your fingertips", body: "Trade, stake and swap any token across any chain — instantly." },
-    { icon: Repeat, title: "Connect to every application", body: "Native dApp browser with WalletConnect on every chain." },
-    { icon: ImageIcon, title: "One home for all your NFTs", body: "View, send and showcase collections across networks." },
+    { icon: Wallet, title: "Data-driven strategies", body: "We leverage advanced quantitative models to navigate market volatility and secure consistent returns." },
+    { icon: Repeat, title: "Dedicated Advisors", body: "Get personalized guidance from our team of seasoned crypto wealth managers." },
+    { icon: Shield, title: "Institutional Custody", body: "Your assets are protected with state-of-the-art MPC technology and comprehensive insurance." },
   ];
   return (
-    <section className="px-4 py-32">
+    <section id="strategies" className="px-4 py-32">
       <div className="mx-auto max-w-5xl">
         <Reveal>
           <div className="text-center mb-16">
-            <div className="chip mb-6"><Sparkles className="w-3 h-3" /> Take Ctrl</div>
+            <div className="chip mb-6"><Sparkles className="w-3 h-3" /> Stellar Wealth</div>
             <h2 className="text-display text-5xl md:text-7xl">
-              Capture every opportunity{" "}
+              Next-generation wealth{" "}
               <span className="inline-grid place-items-center w-[0.8em] h-[0.5em] rounded-full bg-primary align-middle mx-2" />
               <br className="hidden md:block" />
-              on every chain.
+              management.
             </h2>
           </div>
         </Reveal>
@@ -472,13 +488,13 @@ function Trust() {
 }
 
 /* ---------------- Security ---------------- */
-function Security() {
-  const words = "The Secure way to Web3".split(" ");
+export function Security() {
+  const words = "The Secure way to Invest".split(" ");
   return (
     <section id="security" className="px-4 py-32">
       <div className="mx-auto max-w-5xl">
         <Reveal>
-          <div className="text-center text-sm text-muted-foreground mb-4">Connect with confidence</div>
+          <div className="text-center text-sm text-muted-foreground mb-4">Invest with absolute confidence</div>
         </Reveal>
         <h2 className="text-display text-5xl md:text-7xl text-center mb-16 flex flex-wrap justify-center gap-x-4">
           {words.map((w, i) => (
@@ -506,7 +522,7 @@ function Security() {
         </h2>
 
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          {["Multi-sig protection", "Hardware wallet support", "Open source audits", "End-to-end encryption"].map(
+          {["Multi-sig institutional custody", "Cold storage infrastructure", "SOC 2 Type II Audited", "Comprehensive insurance"].map(
             (t, i) => (
               <Reveal key={t} delay={i}>
                 <div className="rounded-2xl bg-card border border-border p-5 h-36 flex flex-col justify-between">
@@ -605,7 +621,7 @@ function CTA() {
 }
 
 /* ---------------- Footer ---------------- */
-function Footer() {
+export function Footer() {
   return (
     <footer className="bg-ink text-white/80 mt-16">
       <div className="mx-auto max-w-6xl px-4 py-16">
@@ -613,10 +629,10 @@ function Footer() {
           <div className="max-w-sm">
             <div className="flex items-center gap-2 text-white font-bold text-2xl">
               <span className="grid place-items-center w-8 h-8 rounded-md bg-primary text-ink text-sm font-black">✕</span>
-              Ctrl
+              Stellar Wealth
             </div>
             <p className="mt-4 text-sm text-white/60">
-              The secure way to Web3. One wallet for 1,800+ chains.
+              Institutional-grade crypto investment and wealth management.
             </p>
             <div className="mt-6 flex gap-3">
               <a href="#" className="grid place-items-center w-9 h-9 rounded-full bg-white/10 hover:bg-white/20 transition">
@@ -645,8 +661,8 @@ function Footer() {
           </div>
         </div>
         <div className="mt-16 pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between text-xs text-white/50 gap-2">
-          <span>© {new Date().getFullYear()} Ctrl. All rights reserved.</span>
-          <span>Built for Web3 natives.</span>
+          <span>© {new Date().getFullYear()} Stellar Wealth. All rights reserved.</span>
+          <span>Built for the future of finance.</span>
         </div>
       </div>
     </footer>
