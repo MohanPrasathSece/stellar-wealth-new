@@ -327,7 +327,7 @@ export function ContactSection() {
               style={{ boxShadow: "var(--shadow-card-light)" }}
             >
               <p className="text-[12px] font-semibold uppercase tracking-[0.25em] text-muted-foreground">
-                Why Revelle
+                Why The Ledger Capital
               </p>
               <TrustBadge icon={Shield} text="Regulated & compliant across 38 jurisdictions" delay={0.45} />
               <TrustBadge icon={Lock} text="Bank-grade security & fund segregation" delay={0.52} />

@@ -131,7 +131,7 @@ function MarketInsights() {
           <p className="text-xl font-bold text-ink/70 leading-relaxed mb-8">
             Our models process billions of data points daily. Stay ahead of the curve with real-time analytics and predictive charting.
           </p>
-          <button className="btn-primary">View Full Report</button>
+          <button onClick={() => { import("sonner").then(m => m.toast.success("Report generation started. We'll notify you when it's ready.")); }} className="btn-primary">View Full Report</button>
         </Reveal>
 
         <Reveal delay={1}>
