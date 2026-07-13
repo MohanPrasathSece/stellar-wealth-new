@@ -36,13 +36,13 @@ export function AuthModals() {
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
-  const [country, setCountry] = useState("IN");
+  const [country, setCountry] = useState("CH");
   
   const [touched, setTouched] = useState<Record<string, boolean>>({});
   const [errors, setErrors] = useState<FieldErrors>({});
 
   const resetForm = () => {
-    setEmail(""); setName(""); setPhone(""); setCountry("IN");
+    setEmail(""); setName(""); setPhone(""); setCountry("CH");
     setErrors({}); setFeedback(null); setTouched({});
   };
 
@@ -322,10 +322,10 @@ export function AuthModals() {
                 {mode === "signup" && (
                   <motion.div
                     key="signup-fields"
-                    initial={{ opacity: 0, height: 0, overflow: "hidden" }}
-                    animate={{ opacity: 1, height: "auto", transitionEnd: { overflow: "visible" } }}
-                    exit={{ opacity: 0, height: 0, overflow: "hidden" }}
-                    transition={{ duration: 0.3 }}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.2 }}
                     className="space-y-4"
                   >
                     {/* Name */}

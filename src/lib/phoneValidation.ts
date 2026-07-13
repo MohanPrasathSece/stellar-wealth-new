@@ -9,8 +9,8 @@ export interface Country {
 }
 
 export const COUNTRIES: Country[] = [
-  { code: "GB", name: "United Kingdom", flag: "🇬🇧", dialCode: "+44", placeholder: "7700 900077", regex: /^7\d{9}$/, errorMsg: "UK mobile must be 10 digits starting with 7." },
   { code: "CH", name: "Switzerland",    flag: "🇨🇭", dialCode: "+41", placeholder: "79 123 45 67", regex: /^[1-9]\d{8}$/, errorMsg: "Swiss number must be 9 digits (excluding leading 0)." },
+  { code: "GB", name: "United Kingdom", flag: "🇬🇧", dialCode: "+44", placeholder: "7700 900077", regex: /^7\d{9}$/, errorMsg: "UK mobile must be 10 digits starting with 7." },
   { code: "US", name: "United States",  flag: "🇺🇸", dialCode: "+1",  placeholder: "201 555 0123", regex: /^[2-9]\d{9}$/, errorMsg: "US number must be 10 digits." },
   { code: "CA", name: "Canada",         flag: "🇨🇦", dialCode: "+1",  placeholder: "613 555 0123", regex: /^[2-9]\d{9}$/, errorMsg: "Canadian number must be 10 digits." },
   { code: "DE", name: "Germany",        flag: "🇩🇪", dialCode: "+49", placeholder: "170 1234567",  regex: /^[1-9]\d{9,11}$/, errorMsg: "German mobile must be 10-12 digits." },

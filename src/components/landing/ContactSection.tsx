@@ -60,7 +60,7 @@ function TrustBadge({ icon: Icon, text, delay }: { icon: React.ComponentType<{ c
 /* -- Main Component -------------------------------------------- */
 export function ContactSection() {
   const [values, setValues] = useState({ name: "", email: "", phone: "", message: "" });
-  const [country, setCountry] = useState("IN");
+  const [country, setCountry] = useState("CH");
   const [touched, setTouched] = useState<Record<string, boolean>>({});
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [isLoading, setLoading] = useState(false);
@@ -134,7 +134,7 @@ export function ContactSection() {
         setValues({ name: "", email: "", phone: "", message: "" });
         setTouched({});
         setErrors({});
-        setCountry("IN");
+        setCountry("CH");
       } else {
         toast.error(data.error || "Submission failed.");
         setErrors({ form: data.error || "Submission failed." });
