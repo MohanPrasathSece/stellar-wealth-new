@@ -304,7 +304,7 @@ export function ContactSection() {
 
                   <Magnetic strength={0.15}>
                     <button type="submit" disabled={isLoading}
-                      className="group flex w-full items-center justify-center gap-2 rounded-2xl bg-foreground px-8 py-4 text-[15px] font-semibold text-paper transition-all duration-300 hover:bg-primary hover:text-primary-foreground hover:shadow-[0_10px_40px_-10px_oklch(0.93_0.208_122/50%)] disabled:opacity-50">
+                      className="group flex w-full items-center justify-center gap-2 rounded-2xl bg-foreground px-8 py-4 text-[15px] font-semibold text-background transition-all duration-300 hover:bg-primary hover:text-primary-foreground hover:shadow-[0_10px_40px_-10px_oklch(0.93_0.208_122/50%)] disabled:opacity-50">
                       {isLoading ? (
                         <><Loader2 className="size-4 animate-spin" />Sending Enquiry...</>
                       ) : (

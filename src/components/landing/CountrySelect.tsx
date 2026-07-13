@@ -96,7 +96,7 @@ export const CountrySelect: React.FC<CountrySelectProps> = ({
                       isSelected
                         ? isDark
                           ? "bg-foreground text-background font-bold"
-                          : "bg-foreground text-paper font-bold"
+                          : "bg-foreground text-background font-bold"
                         : isDark
                           ? "text-foreground hover:bg-muted/40"
                           : "text-foreground hover:bg-background-border/20"
